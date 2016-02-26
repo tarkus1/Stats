@@ -51,7 +51,7 @@ Sub nameList()
     participants(11).index = 11
     
 
-    Set mainWB = Workbooks("Calgary ILP 15-2 Classroom Workbook Week 20.xlsx")
+    Set mainWB = Workbooks("Calgary ILP 15-2 Classroom Workbook Week 24.xlsx")
     
 
 
@@ -70,10 +70,10 @@ Sub nameList()
        response = MsgBox(msg, vbOKCancel)
         If response = vbOK Then
             On Error Resume Next
-            fileName = "C:\Users\Mark\OneDrive\Participant Games\" & participants(offIdx).name & _
+            'fileName = "C:\Users\Mark\OneDrive\Participant Games\" & participants(offIdx).name & _
                             "\Statistics\ILP Stats " & participants(offIdx).name & ".xlsx"
             
-            'fileName = "C:\Users\mark_\OneDrive\Participant Games\" & participants(offIdx).name & _
+            fileName = "C:\Users\mark_\OneDrive\Participant Games\" & participants(offIdx).name & _
                             "\Statistics\ILP Stats " & participants(offIdx).name & ".xlsx"
             
             Debug.Print fileName
@@ -103,13 +103,13 @@ Sub nameList()
     Loop
          
     End Sub
+'Sub copyStats()
 Sub copyStats(offIdx)
-Attribute copyStats.VB_ProcData.VB_Invoke_Func = " \n14"
 '
 ' copyStats Macro
 '
-    Set mainWB = Workbooks("Calgary ILP 15-2 Classroom Workbook Week 20.xlsx")
-
+    If mainWB Is Nothing Then Set mainWB = Workbooks("Calgary ILP 15-2 Classroom Workbook Week 24.xlsx")
+    
     Set thisWB = ActiveWorkbook
     
     
