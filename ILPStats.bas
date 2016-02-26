@@ -70,10 +70,10 @@ Sub nameList()
        response = MsgBox(msg, vbOKCancel)
         If response = vbOK Then
             On Error Resume Next
-            'fileName = "C:\Users\Mark\OneDrive\Participant Games\" & participants(offIdx).name & _
+            fileName = "C:\Users\Mark\OneDrive\Participant Games\" & participants(offIdx).name & _
                             "\Statistics\ILP Stats " & participants(offIdx).name & ".xlsx"
             
-            fileName = "C:\Users\mark_\OneDrive\Participant Games\" & participants(offIdx).name & _
+            'fileName = "C:\Users\mark_\OneDrive\Participant Games\" & participants(offIdx).name & _
                             "\Statistics\ILP Stats " & participants(offIdx).name & ".xlsx"
             
             Debug.Print fileName
