@@ -1,5 +1,5 @@
 Attribute VB_Name = "ILPStatsSprint2016"
-Public mainWB As Workbook
+Public mainWB As Workbook, mainWBName As String
 
 Public partNames As Variant, offIdx As Integer
 
@@ -50,8 +50,9 @@ Sub nameList()
     participants(10).index = 10
     participants(11).index = 11
     
-
-    Set mainWB = Workbooks("CAL ILP Stats 2016-03-11.xlsx")
+    
+    mainWBName = "CAL ILP Stats 2016-03-11.xlsx"
+    Set mainWB = Workbooks(mainWBName)
     
 
 
@@ -105,11 +106,17 @@ Sub nameList()
          
     End Sub
 'Sub copyStats()
-Sub copyStats(offIdx)
+
+ Sub copyStats(offIdx)
 '
 ' copyStats Macro
 '
-    If mainWB Is Nothing Then Set mainWB = Workbooks("Calgary ILP 15-2 Classroom Workbook Week 24.xlsx")
+    
+    mainWBName = "CAL ILP Stats 2016-03-11.xlsx"
+    
+'    offIdx = 10
+
+    If mainWB Is Nothing Then Set mainWB = Workbooks(mainWBName)
     
     Set thisWB = ActiveWorkbook
     
@@ -120,7 +127,7 @@ Sub copyStats(offIdx)
 
     thisWB.Worksheets("Statistician").Activate
     
-    Range("A15:HJ15").Select
+    Range("A15:gf15").Select
     Selection.Copy
     
     mainWB.Worksheets("Data").Activate
@@ -138,7 +145,7 @@ Sub copyStats(offIdx)
     
     mainWB.Worksheets("Assignments").Activate
 
-    Range("g7").Offset(offIdx, 0).Select
+    Range("g5").Offset(offIdx, 0).Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
         
