@@ -1,79 +1,65 @@
-Attribute VB_Name = "ILPStatsSprint2016"
-Public mainWB As Workbook, mainWBName As String
+VERSION 5.00
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate 
+   Caption         =   "Participant and Date"
+   ClientHeight    =   2480
+   ClientLeft      =   105
+   ClientTop       =   450
+   ClientWidth     =   3795
+   OleObjectBlob   =   "ParticipantDate.frx":0000
+   StartUpPosition =   1  'CenterOwner
+End
+Attribute VB_Name = "ParticipantDate"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
 
-Public partNames As Variant, offIdx As Integer
 
-Public partWBs As Workbooks
-Public thisWB As Workbook
+Public mainWB As Workbook, thisWB As Workbook, participants As Range
 
-    Type particInfo
-        name As String
-        index As Integer
-    End Type
-
-
-' create the name list and index
-
-
-' create the name list and run stats
-
-Sub nameList()
+Private Sub Participant_Change()
+    Debug.Print Participant.Value
     
-    Dim keepgoing As Boolean, response As Integer, fileName As String
+    fromForm (Participant.Value)
     
-
-    Dim participants(0 To 11) As particInfo
-    
-    participants(0).name = "Curtis Arnold"
-    participants(1).name = "Judy Bartholomeusz"
-    participants(2).name = "Sheila Braun"
-    participants(3).name = "Erick Corzo"
-    participants(4).name = "Sarah Fletcher"
-    participants(5).name = "Fahreen Lalani"
-    participants(6).name = "David Lyon"
-    participants(7).name = "Donna Mathezing"
-    participants(8).name = "Chris Munstermann"
-    participants(9).name = "Julian Ruth"
-    participants(10).name = "Audrey Wilkins"
-    
-    participants(0).index = 0
-    participants(1).index = 1
-    participants(2).index = 2
-    participants(3).index = 3
-    participants(4).index = 4
-    participants(5).index = 5
-    participants(6).index = 6
-    participants(7).index = 7
-    participants(8).index = 8
-    participants(9).index = 9
-    participants(10).index = 10
-    ' participants(11).index = 11
-    
-    
-    mainWBName = "CAL ILP Stats 2016-03-11.xlsx"
-    Set mainWB = Workbooks(mainWBName)
-    
-
-
-    offIdx = 0
-    
-    Do While offIdx < 12
-        Debug.Print participants(offIdx).name
-        offIdx = offIdx + 1
         
-    Loop
+End Sub
 
-   offIdx = 0
+
+Sub UserForm_Activate()
+    
+    'load the participants from data sheet
+    
+    Set mainWB = ActiveWorkbook
+    
+    'mainWB.Worksheets("Data").Range("b15").Select
+    Set participants = Range("PartIndex")
+    
+
+
+End Sub
+
+Sub fromForm(offIdx)
+        Dim partName As String
         
-    Do While offIdx < 12
-        msg = "work on " & participants(offIdx).name & "?"
-       response = MsgBox(msg, vbOKCancel)
+        partName = participants.Value2(offIdx, 2) & " " & participants.Value2(offIdx, 3)
+        
+        msg = "work on " & partName & "?"
+        
+        Debug.Print partName
+
+        response = MsgBox(msg, vbOKCancel)
+        
         If response = vbOK Then
             On Error Resume Next
             
-            fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & participants(offIdx).name & _
-                            "\Statistics\" & participants(offIdx).name & " ILP Stats.xlsx"
+            fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
+                            "\Statistics\" & partName & " ILP Stats.xlsx"
+             
+            ' fileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
+                            "\Statistics\" & partName & " ILP Stats.xlsx"
             
+           
             'fileName = "C:\Users\mark_\OneDrive\Participant Games\" & participants(offIdx).name & _
                             "\Statistics\ILP Stats " & participants(offIdx).name & ".xlsx"
             
@@ -88,7 +74,7 @@ Sub nameList()
             response = MsgBox("copy stats?", vbOKCancel)
             
             If response = vbOK Then
-                copyStats (offIdx)
+                copyStats (offIdx - 1)
                 thisWB.Close savechanges:=False
             
             Else
@@ -97,21 +83,18 @@ Sub nameList()
             
             End If
         End If
-                
-        
-        offIdx = offIdx + 1
-        
-    Loop
-         
-    End Sub
-'Sub copyStats()
 
- Sub copyStats(offIdx)
+
+
+
+End Sub
+
+ Private Sub copyStats(offIdx)
 '
 ' copyStats Macro
 '
     
-    mainWBName = "CAL ILP Stats 2016-03-11.xlsx"
+    mainWBName = "CAL ILP Stats 2016-03-18.xlsx"
     
 '    offIdx = 10
 
