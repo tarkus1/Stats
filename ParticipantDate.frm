@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate 
    Caption         =   "Participant and Date"
-   ClientHeight    =   2480
+   ClientHeight    =   2475
    ClientLeft      =   105
    ClientTop       =   450
    ClientWidth     =   3795
@@ -53,10 +53,10 @@ Sub fromForm(offIdx)
         If response = vbOK Then
             On Error Resume Next
             
-            fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
+            'fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
                             "\Statistics\" & partName & " ILP Stats.xlsx"
              
-            ' fileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
+            fileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
                             "\Statistics\" & partName & " ILP Stats.xlsx"
             
            
