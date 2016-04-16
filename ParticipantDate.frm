@@ -15,9 +15,16 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
-Public mainWB As Workbook, thisWB As Workbook, participants As Range
+
+Public mainWB As Workbook, thisWB As Workbook, participants As Range, theDate As Date, _
+        theResult As Boolean
+
+
+
 
 Private Sub Participant_Change()
+    
+   
     Debug.Print Participant.Value
     
     fromForm (Participant.Value)
@@ -26,21 +33,49 @@ Private Sub Participant_Change()
 End Sub
 
 
+
+
+
+Private Sub StatsDate_Change()
+    
+    theDate = StatsDate.Value
+    
+    Debug.Print (theDate)
+    
+End Sub
+
 Sub UserForm_Activate()
     
     'load the participants from data sheet
     
-    Set mainWB = ActiveWorkbook
+    For Each WB In Application.Workbooks
+        Debug.Print WB.name
+        If Left(WB.name, 7) = "CAL ILP" Then Set mainWB = WB
+    Next WB
+    
+    If mainWB Is Nothing Then Exit Sub
+    
+    mainWB.Sheets("Data").Activate
+    
+       
+    Range("C15").Select
+    
+    mainWB.Sheets("Data").Range("C15", Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlToLeft)).Select
+    
+    Set participants = Selection
+    
+    Participant.RowSource = participants.Address
     
     'mainWB.Worksheets("Data").Range("b15").Select
-    Set participants = Range("PartIndex")
+    'Set participants = Range("PartIndex")
     
 
 
 End Sub
 
 Sub fromForm(offIdx)
-        Dim partName As String
+        Dim partName As String, theDateRange As Range, sheetsToCheck As Variant, badDates As Boolean
         
         partName = participants.Value2(offIdx, 2) & " " & participants.Value2(offIdx, 3)
         
@@ -53,24 +88,56 @@ Sub fromForm(offIdx)
         If response = vbOK Then
             On Error Resume Next
             
-            'fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
+            ' fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
                             "\Statistics\" & partName & " ILP Stats.xlsx"
              
             fileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
                             "\Statistics\" & partName & " ILP Stats.xlsx"
             
            
-            'fileName = "C:\Users\mark_\OneDrive\Participant Games\" & participants(offIdx).name & _
-                            "\Statistics\ILP Stats " & participants(offIdx).name & ".xlsx"
-            
+           
             Debug.Print fileName
             
             Workbooks.Open fileName
-                            
-            Set thisWB = Workbooks(participants(offIdx).name & " ILP Stats.xlsx")
             
+            Set thisWB = Workbooks(partName & " ILP Stats.xlsx")
+                            
             thisWB.Activate
             
+            sheetsToCheck = Array("Assisting Agreements", "Guests", "Registrations")
+                        
+            ' check for bad dates
+            
+            For Each sheetname In sheetsToCheck
+                
+                Debug.Print sheetname
+                
+                theResult = False
+                
+                thisWB.Activate
+                
+                thisWB.Worksheets(sheetname).Activate
+                
+                Range("B5").Select
+                If Not Selection = "" Then
+                    If Not Selection.Offset(1, 0).Value = "" Then
+                        Range(Selection, Selection.End(xlDown)).Select
+                    
+                        Set theDateRange = Range(Selection, Selection.End(xlDown))
+                        
+                        Call checkText(theDateRange, thisWB)
+                        
+                        Debug.Print "result "; theResult
+                        
+                        If theResult Then Exit Sub
+                        
+                    End If
+                Else
+                    Debug.Print sheetname; " has no data"
+                End If
+            
+            Next sheetname
+                   
             response = MsgBox("copy stats?", vbOKCancel)
             
             If response = vbOK Then
@@ -94,20 +161,22 @@ End Sub
 ' copyStats Macro
 '
     
-    mainWBName = "CAL ILP Stats 2016-03-18.xlsx"
+    mainWBName = "CAL ILP Stats 2016-04-01.xlsx"
     
 '    offIdx = 10
 
-    If mainWB Is Nothing Then Set mainWB = Workbooks(mainWBName)
+    ' If mainWB Is Nothing Then Set mainWB = Workbooks(mainWBName)
     
-    Set thisWB = ActiveWorkbook
+    'Set thisWB = ActiveWorkbook
     
     
     Debug.Print thisWB.name; " index "; offIdx
 
 '   Game
-
+    thisWB.Activate
+    
     thisWB.Worksheets("Statistician").Activate
+
     
     Range("A15:gf15").Select
     Selection.Copy
@@ -162,6 +231,55 @@ Sub closeWB()
 
 '
     thisWB.Close savechanges:=False
+    
+End Sub
+
+
+Sub checkText(theRange, checkbook)
+    
+    ' return true if there are bad dates
+    
+    Dim checksheet As Worksheet
+    
+    Debug.Print "function starts with this workbook active "; ActiveWorkbook.name
+    
+    Debug.Print theRange.Parent.Parent.name
+    
+    ' Set checkbook = Workbooks(theRange.Parent.Parent.name)
+    Set checksheet = checkbook.Worksheets(theRange.Parent.name)
+    checkbook.Activate
+    checksheet.Activate
+    
+    For Each ddate In theRange
+        Debug.Print ddate.Value; ddate.Address; WorksheetFunction.IsText(ddate)
+
+        
+        
+        If Not WorksheetFunction.IsNumber(ddate) _
+            Or WorksheetFunction.IsText(ddate) Then
+            
+            MsgBox ("text date at " & ActiveSheet.name & " " & ddate.Address)
+            checkbook.Activate
+            checksheet.Activate
+            Range(ddate.Address).Activate
+            
+            theResult = True
+            Exit Sub
+            
+        ElseIf ddate < Range("ProgramStart") Or ddate > Worksheets("Schedule").Range("b34") Then
+            
+            MsgBox ("date out of range at " & ActiveSheet.name & " " & ddate.Address)
+            checkbook.Activate
+            checksheet.Activate
+            Range(ddate.Address).Activate
+            
+            theResult = True
+            Exit Sub
+        
+        End If
+        
+    Next ddate
+    
     
 End Sub
 
