@@ -16,11 +16,18 @@ Attribute VB_Exposed = False
 
 
 
+
+
+
 Public mainWB As Workbook, thisWB As Workbook, participants As Range, theDate As Date, _
         theResult As Boolean
 
 
 
+
+Private Sub doneButton_Click()
+    ParticipantDate.Hide
+End Sub
 
 Private Sub Participant_Change()
     
@@ -44,14 +51,15 @@ Private Sub StatsDate_Change()
     
 End Sub
 
+
 Sub UserForm_Activate()
     
     'load the participants from data sheet
     
-    For Each WB In Application.Workbooks
-        Debug.Print WB.name
-        If Left(WB.name, 7) = "CAL ILP" Then Set mainWB = WB
-    Next WB
+    For Each wb In Application.Workbooks
+        Debug.Print wb.name
+        If Left(wb.name, 7) = "CAL ILP" Then Set mainWB = wb
+    Next wb
     
     If mainWB Is Nothing Then Exit Sub
     
@@ -88,19 +96,21 @@ Sub fromForm(offIdx)
         If response = vbOK Then
             On Error Resume Next
             
-            ' fileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
-                            "\Statistics\" & partName & " ILP Stats.xlsx"
-             
-            fileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
-                            "\Statistics\" & partName & " ILP Stats.xlsx"
+            ' Open the file dialog
+            With Application.FileDialog(msoFileDialogOpen)
+                   .AllowMultiSelect = False
+                   .Title = partName
+                   .Show
             
-           
-           
-            Debug.Print fileName
-            
-            Workbooks.Open fileName
-            
+                   Set thisWB = Workbooks.Open(.SelectedItems(1))
+                   
+            End With
+
+            Debug.Print thisWB.name
+                       
             Set thisWB = Workbooks(partName & " ILP Stats.xlsx")
+                            
+            ' Set thisWB = ActiveWorkbook
                             
             thisWB.Activate
             
@@ -149,6 +159,8 @@ Sub fromForm(offIdx)
                 Exit Sub
             
             End If
+            
+            
         End If
 
 
@@ -161,7 +173,7 @@ End Sub
 ' copyStats Macro
 '
     
-    mainWBName = "CAL ILP Stats 2016-04-01.xlsx"
+    mainWBName = "CAL ILP Stats 2016-04-15.xlsx"
     
 '    offIdx = 10
 
@@ -266,7 +278,7 @@ Sub checkText(theRange, checkbook)
             theResult = True
             Exit Sub
             
-        ElseIf ddate < Range("ProgramStart") Or ddate > Worksheets("Schedule").Range("b34") Then
+        ElseIf ddate < Range("ProgramStart") - 15 Or ddate > Worksheets("Schedule").Range("b34") Then
             
             MsgBox ("date out of range at " & ActiveSheet.name & " " & ddate.Address)
             checkbook.Activate
