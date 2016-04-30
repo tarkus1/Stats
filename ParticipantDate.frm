@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate 
    Caption         =   "Participant and Date"
-   ClientHeight    =   2475
+   ClientHeight    =   2478
    ClientLeft      =   105
    ClientTop       =   450
    ClientWidth     =   3795
@@ -19,15 +19,12 @@ Attribute VB_Exposed = False
 
 
 
+
 Public mainWB As Workbook, thisWB As Workbook, participants As Range, theDate As Date, _
         theResult As Boolean
 
 
 
-
-Private Sub doneButton_Click()
-    ParticipantDate.Hide
-End Sub
 
 Private Sub Participant_Change()
     
@@ -100,6 +97,8 @@ Sub fromForm(offIdx)
             With Application.FileDialog(msoFileDialogOpen)
                    .AllowMultiSelect = False
                    .Title = partName
+                   ' .InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
                    .Show
             
                    Set thisWB = Workbooks.Open(.SelectedItems(1))
@@ -159,8 +158,6 @@ Sub fromForm(offIdx)
                 Exit Sub
             
             End If
-            
-            
         End If
 
 
@@ -278,7 +275,7 @@ Sub checkText(theRange, checkbook)
             theResult = True
             Exit Sub
             
-        ElseIf ddate < Range("ProgramStart") - 15 Or ddate > Worksheets("Schedule").Range("b34") Then
+        ElseIf ddate < Range("ProgramStart") - 21 Or ddate > Worksheets("Schedule").Range("b34") Then
             
             MsgBox ("date out of range at " & ActiveSheet.name & " " & ddate.Address)
             checkbook.Activate
