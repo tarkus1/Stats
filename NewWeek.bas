@@ -1,16 +1,17 @@
 Attribute VB_Name = "NewWeek"
-Sub NewWeek()
-Attribute NewWeek.VB_ProcData.VB_Invoke_Func = " \n14"
+Sub CreateNewWeek()
 '
 ' NewWeek Macro
 '
 
 '
-    Sheets("Introduction Leader Info").Activate
+    ActiveWorkbook.Sheets("Introduction Leader Info").Activate
+    
+    Call FilterILs
 
     Range("ILInfo[Introduction Leader]").Copy
 
-    Sheets("Put Results Here").Activate
+    ActiveWorkbook.Sheets("Put Results Here").Activate
 
 
     Range("Results[[#Headers],[Introduction Leader]]").End(xlDown).Offset(1, 0).Select
@@ -26,7 +27,8 @@ Attribute NewWeek.VB_ProcData.VB_Invoke_Func = " \n14"
     Selection.Offset(1, 0).Select
     Range(Selection, Selection.End(xlDown)).Value = newWeekDate
     
-    
+    Range("Results[[#Headers],[End]]").End(xlDown).Select
+    Range(Selection, Selection.End(xlDown)).FillDown
     
     
 End Sub
