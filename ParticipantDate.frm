@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate 
    Caption         =   "Participant and Date"
-   ClientHeight    =   2478
+   ClientHeight    =   2475
    ClientLeft      =   105
    ClientTop       =   450
    ClientWidth     =   3795
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 
 
 
@@ -97,8 +99,8 @@ Sub fromForm(offIdx)
             With Application.FileDialog(msoFileDialogOpen)
                    .AllowMultiSelect = False
                    .Title = partName
-                   ' .InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
-                   .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   .InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   ' .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
                    .Show
             
                    Set thisWB = Workbooks.Open(.SelectedItems(1))
@@ -160,8 +162,8 @@ Sub fromForm(offIdx)
             End If
         End If
 
-
-
+        mainWB.Save
+        
 
 End Sub
 
@@ -222,7 +224,7 @@ End Sub
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
     
-    ' mainWB.Save
+    mainWB.Save
     
 End Sub
 
