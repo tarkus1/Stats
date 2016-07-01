@@ -1,8 +1,10 @@
 Attribute VB_Name = "ReachOut"
 Public participants As Range, mainWB As Workbook, partName As String, i As Integer, _
-    thisWB As Workbook, touchName As Variant
+    thisWB As Workbook, touchName As Variant, touchWB As Workbook
 Sub ReachOut()
-
+    
+    Set touchWB = Application.Workbooks.Add
+    
     For Each wb In Application.Workbooks
         Debug.Print wb.name
         If Left(wb.name, 7) = "CAL ILP" Then Set mainWB = wb
@@ -36,7 +38,9 @@ Sub ReachOut()
         
         touchName = Application.WorksheetFunction.CountA(Range("B5:B104"))
         
-        Debug.Print partName; " count in reach out "; touchName
+        touchWB.Worksheets(1).Activate
+        touchWB.Worksheets(1).Cells(i, 1).Value = partName
+        touchWB.Worksheets(1).Cells(i, 2).Value = touchName
         
         thisWB.Close savechanges:=False
         
