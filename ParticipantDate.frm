@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate 
    Caption         =   "Participant and Date"
-   ClientHeight    =   2475
+   ClientHeight    =   2478
    ClientLeft      =   105
    ClientTop       =   450
    ClientWidth     =   3795
@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Public mainWB As Workbook, thisWB As Workbook, participants As Range, theDate As Date, _
         theResult As Boolean
 
@@ -81,20 +82,27 @@ Sub fromForm(offIdx)
             On Error Resume Next
             
             ' Open the file dialog
-            With Application.FileDialog(msoFileDialogOpen)
-                   .AllowMultiSelect = False
-                   .Title = partName
-                   .InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
-                   ' .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
-                   .Show
             
-                   Set thisWB = Workbooks.Open(.SelectedItems(1))
+            fileName = "C:\Users\mark_\Documents\ILP Temp\" & partName & " ILP Stats.xlsx"
+            
+            'With Application.FileDialog(msoFileDialogOpen)
+             '      .AllowMultiSelect = False
+              '     .Title = partName
+                   '.InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   ' .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+               '     .InitialFileName = "C:\Users\mark_\Documents\ILP Temp\" & partName & " ILP Stats.xlsx"
+               
+                '   .Show
+            
+                 '  Set thisWB = Workbooks.Open(.SelectedItems(1))
                    
-            End With
+            'End With
+            
+            Set thisWB = Workbooks.Open(fileName)
 
             Debug.Print thisWB.name
                        
-            Set thisWB = Workbooks(partName & " ILP Stats.xlsx")
+            ' Set thisWB = Workbooks(partName & " ILP Stats.xlsx")
                             
             ' Set thisWB = ActiveWorkbook
                             
@@ -128,6 +136,26 @@ Sub fromForm(offIdx)
                         If theResult Then Exit Sub
                         
                     End If
+                    
+                    If (Not Range("B5").Offset(0, 5).Value = "") And sheetname = "Assisting Agreements" Then
+                       Range("B5").Offset(0, 5).Select
+                       If Not Selection.Offset(1, 0).Value = "" Then
+                    
+                            Range(Selection, Selection.End(xlDown)).Select
+                           
+                        End If
+                        
+                        Set theDateRange = Selection
+                        
+                        Call checkText(theDateRange, thisWB)
+                        
+                        Debug.Print "result "; theResult
+                        
+                        If theResult Then Exit Sub
+                    
+                    End If
+                     
+                        
                 Else
                     Debug.Print sheetname; " has no data"
                 End If
@@ -149,6 +177,7 @@ Sub fromForm(offIdx)
 
         mainWB.Save
         
+        Unload ParticipantDate
 
 End Sub
 
@@ -252,7 +281,7 @@ Sub checkText(theRange, checkbook)
         
         
         If Not WorksheetFunction.IsNumber(ddate) _
-            Or WorksheetFunction.IsText(ddate) Then
+            Or WorksheetFunction.IsText(ddate) Or ddate.Value = "" Then
             
             MsgBox ("text date at " & ActiveSheet.name & " " & ddate.Address)
             checkbook.Activate

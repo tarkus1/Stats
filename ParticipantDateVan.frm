@@ -54,7 +54,7 @@ Sub fromForm(offIdx)
             On Error Resume Next
             
             
-            fileName = "C:\Users\mark_\Documents\ILP Temp\" & partName & " ILP-16-1-VAN.xlsx"
+            fileName = "C:\Users\mark_\Documents\ILP Temp Van\" & partName & " ILP-16-1-VAN.xlsx"
             
    
             Debug.Print fileName
@@ -93,6 +93,26 @@ Sub fromForm(offIdx)
                         If theResult Then Exit Sub
 
                     End If
+                    
+                    If (Not Range("B5").Offset(0, 5).Value = "") And sheetname = "Assisting Agreements" Then
+                       Range("B5").Offset(0, 5).Select
+                       If Not Selection.Offset(1, 0).Value = "" Then
+                    
+                            Range(Selection, Selection.End(xlDown)).Select
+                           
+                        End If
+                        
+                        Set theDateRange = Selection
+                        
+                        Call checkText(theDateRange, thisWB)
+                        
+                        Debug.Print "result "; theResult
+                        
+                        If theResult Then Exit Sub
+                    
+                    End If
+                     
+                
                 Else
                     Debug.Print sheetname; " has no data"
                 End If
@@ -112,6 +132,8 @@ Sub fromForm(offIdx)
         End If
 
         mainWB.Save
+        
+        Unload ParticipantDateVan
 
 End Sub
 

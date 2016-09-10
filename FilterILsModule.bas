@@ -6,6 +6,7 @@ Attribute FilterILs.VB_ProcData.VB_Invoke_Func = " \n14"
 '
 
 '
+    Range("ILInfo").Select
     Selection.AutoFilter
     ActiveSheet.ListObjects("ILInfo").Range.AutoFilter Field:=2, Criteria1:= _
         Array("Fulfilled Leading to 100! as Program Leader", _
