@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate
    Caption         =   "Participant and Date"
    ClientHeight    =   2478
    ClientLeft      =   105
-   ClientTop       =   450
-   ClientWidth     =   3795
+   ClientTop       =   448
+   ClientWidth     =   3794
    OleObjectBlob   =   "ParticipantDate.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -170,6 +170,8 @@ Sub fromForm(offIdx)
             
             Else
                 thisWB.Activate
+                Unload ParticipantDate
+
                 Exit Sub
             
             End If
