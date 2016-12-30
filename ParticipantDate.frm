@@ -14,6 +14,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+
 Public mainWB As Workbook, thisWB As Workbook, participants As Range, theDate As Date, _
         theResult As Boolean
 
@@ -42,8 +43,8 @@ Sub UserForm_Activate()
     'load the participants from data sheet
     
     For Each wb In Application.Workbooks
-        Debug.Print wb.name
-        If Left(wb.name, 7) = "CAL ILP" Then Set mainWB = wb
+        Debug.Print wb.Name
+        If Left(wb.Name, 7) = "CAL ILP" Then Set mainWB = wb
     Next wb
     
     If mainWB Is Nothing Then Exit Sub
@@ -83,24 +84,23 @@ Sub fromForm(offIdx)
             
             ' Open the file dialog
             
-            fileName = "C:\Users\mark_\Documents\ILP Temp\" & partName & " ILP Stats.xlsx"
+            ' Filename = "C:\Users\mark_\Documents\ILP Temp\" & partName & " ILP Stats.xlsx"
+            ' Filename = "C:\Users\Mark\Documents\ILPTemp\" & partName & " ILP Stats.xlsx"
             
-            'With Application.FileDialog(msoFileDialogOpen)
-             '      .AllowMultiSelect = False
-              '     .Title = partName
-                   '.InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
-                   ' .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
-               '     .InitialFileName = "C:\Users\mark_\Documents\ILP Temp\" & partName & " ILP Stats.xlsx"
-               
-                '   .Show
+            With Application.FileDialog(msoFileDialogOpen)
+                    .AllowMultiSelect = False
+                    .Title = partName
+                    .InitialFileName = "C:\Users\Mark\OneDrive\Fall 2016 ILP\Participant Games\" & partName & "\Statistics"
+                    '.InitialFileName = "C:\Users\mark_\OneDrive\Fall 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   .Show
             
-                 '  Set thisWB = Workbooks.Open(.SelectedItems(1))
+                   Set thisWB = Workbooks.Open(.SelectedItems(1))
                    
-            'End With
+            End With
             
-            Set thisWB = Workbooks.Open(fileName)
+            Set thisWB = Workbooks.Open(Filename)
 
-            Debug.Print thisWB.name
+            Debug.Print thisWB.Name
                        
             ' Set thisWB = Workbooks(partName & " ILP Stats.xlsx")
                             
@@ -122,7 +122,7 @@ Sub fromForm(offIdx)
                 
                 thisWB.Worksheets(sheetname).Activate
                 
-                Range("B5").Select
+                Range("c6").Select
                 If Not Selection = "" Then
                     If Not Selection.Offset(1, 0).Value = "" Then
                         Range(Selection, Selection.End(xlDown)).Select
@@ -137,8 +137,8 @@ Sub fromForm(offIdx)
                         
                     End If
                     
-                    If (Not Range("B5").Offset(0, 5).Value = "") And sheetname = "Assisting Agreements" Then
-                       Range("B5").Offset(0, 5).Select
+                    If (Not Range("c6").Offset(0, 5).Value = "") And sheetname = "Assisting Agreements" Then
+                       Range("c6").Offset(0, 5).Select
                        If Not Selection.Offset(1, 0).Value = "" Then
                     
                             Range(Selection, Selection.End(xlDown)).Select
@@ -197,7 +197,7 @@ End Sub
     'Set thisWB = ActiveWorkbook
     
     
-    Debug.Print thisWB.name; " index "; offIdx
+    Debug.Print thisWB.Name; " index "; offIdx
 
 '   Game
     thisWB.Activate
@@ -218,7 +218,7 @@ End Sub
 
     thisWB.Worksheets("Statistician").Activate
     
-    Range("b7:be7").Select
+    Range("b7:bg7").Select
     Selection.Copy
     
     mainWB.Worksheets("Assignments").Activate
@@ -246,7 +246,7 @@ End Sub
 
 Sub listWB()
     For Each thisWB In Workbooks
-        Debug.Print thisWB.name
+        Debug.Print thisWB.Name
     Next thisWB
 End Sub
 
@@ -268,12 +268,12 @@ Sub checkText(theRange, checkbook)
     
     Dim checksheet As Worksheet
     
-    Debug.Print "function starts with this workbook active "; ActiveWorkbook.name
+    Debug.Print "function starts with this workbook active "; ActiveWorkbook.Name
     
-    Debug.Print theRange.Parent.Parent.name
+    Debug.Print theRange.Parent.Parent.Name
     
     ' Set checkbook = Workbooks(theRange.Parent.Parent.name)
-    Set checksheet = checkbook.Worksheets(theRange.Parent.name)
+    Set checksheet = checkbook.Worksheets(theRange.Parent.Name)
     checkbook.Activate
     checksheet.Activate
     
@@ -285,7 +285,7 @@ Sub checkText(theRange, checkbook)
         If Not WorksheetFunction.IsNumber(ddate) _
             Or WorksheetFunction.IsText(ddate) Or ddate.Value = "" Then
             
-            MsgBox ("text date at " & ActiveSheet.name & " " & ddate.Address)
+            MsgBox ("text date at " & ActiveSheet.Name & " " & ddate.Address)
             checkbook.Activate
             checksheet.Activate
             Range(ddate.Address).Activate
@@ -293,9 +293,9 @@ Sub checkText(theRange, checkbook)
             theResult = True
             Exit Sub
             
-        ElseIf ddate < Range("ProgramStart") - 21 Or ddate > Worksheets("Schedule").Range("b34") Then
+        ElseIf ddate < Range("ProgramStart") - 29 Or ddate > Worksheets("Schedule").Range("b34") Then
             
-            MsgBox ("date out of range at " & ActiveSheet.name & " " & ddate.Address)
+            MsgBox ("date out of range at " & ActiveSheet.Name & " " & ddate.Address)
             checkbook.Activate
             checksheet.Activate
             Range(ddate.Address).Activate
