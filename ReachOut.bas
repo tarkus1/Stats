@@ -1,16 +1,16 @@
 Attribute VB_Name = "ReachOut"
-Public participants As Range, mainWB As Workbook, partName As String, i As Integer, _
-    thisWB As Workbook, touchName As Variant, touchWB As Workbook
+
 Sub ReachOut()
-    
-    Set touchWB = Application.Workbooks.Add
+    Dim participants As Range, mainWB As Workbook, partName As String, i As Integer, _
+    thisWB As Workbook, tName As Variant, tWB As Workbook, theFile As String
     
     For Each wb In Application.Workbooks
-        Debug.Print wb.name
-        If Left(wb.name, 7) = "CAL ILP" Then Set mainWB = wb
+        Debug.Print wb.Name
+        If Left(wb.Name, 7) = "CAL ILP" Then Set mainWB = wb
+        If Left(wb.Name, 5) = "Suppl" Then Set tWB = wb
     Next wb
     
-    If mainWB Is Nothing Then Exit Sub
+    If mainWB Is Nothing Or tWB Is Nothing Then Exit Sub
     
     mainWB.Sheets("Data").Activate
     
@@ -22,25 +22,26 @@ Sub ReachOut()
     
     Set participants = Selection
     
-    For i = 1 To participants.Rows.Count
+    For i = 1 To participants.Rows.count
     
         partName = participants.Value2(i, 2) & " " & participants.Value2(i, 3)
        
         ' Debug.Print partName
-        theFile = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & _
+        theFile = "C:\Users\mark_\OneDrive\Fall 2016 ILP\Participant Games\" & partName & _
                    "\Statistics\" & partName & " ILP Stats.xlsx"
-        ' Debug.Print theFile
+        Debug.Print theFile
 
        
         Set thisWB = Application.Workbooks.Open(theFile)
     
         thisWB.Worksheets("Reach Out & Touch").Activate
         
-        touchName = Application.WorksheetFunction.CountA(Range("B5:B104"))
+        tName = Application.WorksheetFunction.CountA(Range("c6:c105"))
         
-        touchWB.Worksheets(1).Activate
-        touchWB.Worksheets(1).Cells(i, 1).Value = partName
-        touchWB.Worksheets(1).Cells(i, 2).Value = touchName
+        tWB.Worksheets("Reach out").Activate
+        ActiveSheet.Cells(i + 1, 1).Select
+        ActiveSheet.Cells(i + 1, 1).Value = partName
+        ActiveSheet.Cells(i + 1, 2).Value = tName
         
         thisWB.Close savechanges:=False
         

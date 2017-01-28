@@ -10,9 +10,10 @@ Sub xPort()
      
     For Each objVBComp In objMyProj.VBComponents
         If objVBComp.Type = vbext_ct_StdModule Then
-            Debug.Print "module "; objVBComp.name
+            Debug.Print "module "; objVBComp.Name
             
-            objVBComp.Export "C:\Users\Mark\OneDrive\MakeWaves\Landmark\Introduction Leader\Stats\" & objVBComp.name & ".bas"
+            ' objVBComp.Export "C:\Users\Mark\OneDrive\MakeWaves\Landmark\Introduction Leader\Stats" & objVBComp.name & ".bas"
+            objVBComp.Export "C:\Users\Mark\OneDrive\MakeWaves\Landmark\Introduction Leader\Stats\" & objVBComp.Name & ".bas"
         End If
     Next
      
@@ -50,9 +51,9 @@ Private Sub ListModulesAndSubs()
                          strCodeLine = .Lines(i, 1)
                          
                          With wsList
-                             .Cells(.Rows.Count, "A").End(xlUp).Offset(1, 0) _
+                             .Cells(.Rows.count, "A").End(xlUp).Offset(1, 0) _
                                  = strModule
-                             .Cells(.Rows.Count, "B").End(xlUp).Offset(1, 0) _
+                             .Cells(.Rows.count, "B").End(xlUp).Offset(1, 0) _
                                  = strCodeLine
                          End With
                          

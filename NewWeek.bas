@@ -30,5 +30,7 @@ Sub CreateNewWeek()
     Range("Results[[#Headers],[End]]").End(xlDown).Select
     Range(Selection, Selection.End(xlDown)).FillDown
     
+    ActiveSheet.ListObjects("Results").Range.AutoFilter Field:=2, Criteria1:= _
+        xlFilterThisWeek, Operator:=xlFilterDynamic
     
 End Sub
