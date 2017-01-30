@@ -31,6 +31,6 @@ Sub CreateNewWeek()
     Range(Selection, Selection.End(xlDown)).FillDown
     
     ActiveSheet.ListObjects("Results").Range.AutoFilter Field:=2, Criteria1:= _
-        xlFilterThisWeek, Operator:=xlFilterDynamic
+        xlFilterLastWeek, Operator:=xlFilterDynamic
     
 End Sub
