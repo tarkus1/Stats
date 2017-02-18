@@ -47,7 +47,7 @@ Attribute MovingAvg.VB_ProcData.VB_Invoke_Func = " \n14"
     ActiveSheet.PivotTables("MovingAvg").PivotCache.Refresh
     Sheets("Put Results Here").Select
     Selection.AutoFilter
-    ActiveSheet.ListObjects("Results").Range.AutoFilter Field:=2, Criteria1:= _
+    ActiveSheet.ListObjects("Results").Range.AutoFilter Field:=3, Criteria1:= _
         xlFilterLastWeek, Operator:=xlFilterDynamic
         
 End Sub

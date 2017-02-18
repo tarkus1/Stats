@@ -10,10 +10,10 @@ Sub xPort()
      
     For Each objVBComp In objMyProj.VBComponents
         If objVBComp.Type = vbext_ct_StdModule Then
-            Debug.Print "module "; objVBComp.Name
+            Debug.Print "module "; objVBComp.name
             
             ' objVBComp.Export "C:\Users\Mark\OneDrive\MakeWaves\Landmark\Introduction Leader\Stats" & objVBComp.name & ".bas"
-            objVBComp.Export "C:\Users\Mark\OneDrive\MakeWaves\Landmark\Introduction Leader\Stats\" & objVBComp.Name & ".bas"
+            objVBComp.Export "C:\Users\Mark\OneDrive\MakeWaves\Landmark\Introduction Leader\Stats\" & objVBComp.name & ".bas"
         End If
     Next
      

@@ -5,9 +5,9 @@ Sub ReachOut()
     thisWB As Workbook, tName As Variant, tWB As Workbook, theFile As String
     
     For Each wb In Application.Workbooks
-        Debug.Print wb.Name
-        If Left(wb.Name, 7) = "CAL ILP" Then Set mainWB = wb
-        If Left(wb.Name, 5) = "Suppl" Then Set tWB = wb
+        Debug.Print wb.name
+        If Left(wb.name, 7) = "CAL ILP" Then Set mainWB = wb
+        If Left(wb.name, 5) = "Suppl" Then Set tWB = wb
     Next wb
     
     If mainWB Is Nothing Or tWB Is Nothing Then Exit Sub

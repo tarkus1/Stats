@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDateVan 
    Caption         =   "Participant and Date"
-   ClientHeight    =   2475
+   ClientHeight    =   2478
    ClientLeft      =   105
-   ClientTop       =   450
-   ClientWidth     =   3795
+   ClientTop       =   448
+   ClientWidth     =   3794
    OleObjectBlob   =   "ParticipantDateVan.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 
 
 
@@ -54,14 +55,31 @@ Sub fromForm(offIdx)
             On Error Resume Next
             
             
-            fileName = "C:\Users\mark_\Documents\ILP Temp Van\" & partName & " ILP-16-1-VAN.xlsx"
+            'fileName = "C:\Users\mark_\Documents\ILP Temp Van\" & partName & " ILP-16-1-VAN.xlsx"
             
    
-            Debug.Print fileName
+            With Application.FileDialog(msoFileDialogOpen)
+                   .AllowMultiSelect = False
+                   .Title = partName
+                   '.InitialFileName = "C:\Users\Mark\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   ' .InitialFileName = "C:\Users\mark_\OneDrive\Spring 2016 ILP\Participant Games\" & partName & "\Statistics"
+                   .InitialFileName = "C:\Users\mark_\OneDrive\ILP-16-1-VAN\participants workbooks"
+               
+                   .Show
             
-            Workbooks.Open fileName
+                  Set thisWB = Workbooks.Open(.SelectedItems(1))
+                   
+            End With
+   
+   
+   
+   
+   '
+            Debug.Print Filename
+            
+            ' Workbooks.Open fileName
                             
-            Set thisWB = Workbooks(partName & " ILP-16-1-VAN.xlsx")
+            ' Set thisWB = Workbooks(partName & " ILP-16-1-VAN.xlsx")
             
             thisWB.Activate
             
@@ -126,6 +144,7 @@ Sub fromForm(offIdx)
             
             Else
                 thisWB.Activate
+                Unload ParticipantDateVan
                 Exit Sub
             
             End If
