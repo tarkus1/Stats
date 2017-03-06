@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} ParticipantDate 
    Caption         =   "Participant and Date"
-   ClientHeight    =   2478
+   ClientHeight    =   2475
    ClientLeft      =   105
-   ClientTop       =   448
-   ClientWidth     =   3794
+   ClientTop       =   450
+   ClientWidth     =   3795
    OleObjectBlob   =   "ParticipantDate.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -90,7 +90,7 @@ Sub fromForm(offIdx)
                     .AllowMultiSelect = False
                     .Title = partName
                     '.InitialFileName = "C:\Users\Mark\OneDrive\Fall 2016 ILP\Participant Games\" & partName & "\Statistics"
-                    .InitialFileName = "C:\Users\mark_\OneDrive\Fall 2016 ILP\Participant Games\" & partName & "\Statistics"
+                    '.InitialFileName = "C:\Users\mark_\OneDrive\Fall 2016 ILP\Participant Games\" & partName & "\Statistics"
                    .Show
             
                    Set thisWB = Workbooks.Open(.SelectedItems(1))
